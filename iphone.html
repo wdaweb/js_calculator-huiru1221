@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-image: url("./wallpaper.jpg");
+      background-repeat: no-repeat;
+      background-size: 100vw 100vh;
+    }
+
+    img {
+      float: left;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 455px;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+    }
+
+
+    table {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border: none;
+      margin-top: 50px;
+      table-layout: fixed;
+      width: 400px;
+      transform: translate(-50%, -50%);
+    }
+
+    td {
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      vertical-align: middle;
+      font-family: Arial, Helvetica, sans-serif;
+      border: none;
+    }
+
+    tr+tr td {
+      cursor: pointer;
+    }
+
+    .a1 {
+      color: white;
+      font-size: 100px;
+      overflow-x: scroll;
+      overflow-y: scroll;
+    }
+
+
+    table ::-webkit-scrollbar,
+    table ::-webkit-scrollbar-thumb,
+    table ::-webkit-scrollbar-track {
+      width: 0;
+      color: transparent;
+      background: transparent;
+    }
+
+    .a2,
+    .a3,
+    .a4 {
+      background: #BBB;
+      border-radius: 50%;
+      font-size: 50px;
+    }
+
+    .a2:hover,
+
+    .a3:hover,
+    .a4:hover {
+      background: #ddd;
+      border-radius: 50%;
+      font-size: 50px;
+    }
+
+    .a6,
+    .a7,
+    .a8,
+    .a10,
+    .a11,
+    .a12,
+    .a13,
+    .a14,
+    .a15,
+    .a18 {
+      background: #222222;
+      color: white;
+      border-radius: 50%;
+      font-size: 50px;
+    }
+
+    .a6:hover,
+    .a7:hover,
+    .a8:hover,
+    .a10:hover,
+    .a11:hover,
+    .a12:hover,
+    .a13:hover,
+    .a14:hover,
+    .a15:hover,
+    .a18:hover {
+      background: #777;
+      color: white;
+      border-radius: 50%;
+      font-size: 50px;
+    }
+
+    .a17 {
+      background: #222222;
+      color: white;
+      border-radius: 50px;
+      font-size: 50px;
+      text-align: left;
+    }
+
+    .a17:hover {
+      background: #777;
+      color: white;
+      border-radius: 50px;
+      font-size: 50px;
+      text-align: left;
+    }
+
+    .a5,
+    .a9,
+    .a16 {
+      background: orange;
+      color: white;
+      border-radius: 50px;
+      font-size: 50px;
+    }
+
+    .a5:hover,
+    .a9:hover,
+    .a16:hover {
+      background: white;
+      color: orange;
+      border-radius: 50px;
+      font-size: 50px;
+    }
+
+    #text {
+      text-align: right;
+    }
+
+    .a19 {
+      width: 150px;
+      height: 5px;
+      border-radius: 20px;
+      background: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin-top: 430px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <img class="img" src="./Apple_apple_iphone_14_pro.png" alt="">
+  </div>
+  <table border="1">
+    <tr>
+      <td class="a1" colspan="4" id="text">0</td>
+    </tr>
+    <tr>
+      <td class="a2">C</td>
+      <td class="a3">/</td>
+      <td class="a4">*</td>
+      <td class="a5">-</td>
+    </tr>
+    <tr>
+      <td class="a6">7</td>
+      <td class="a7">8</td>
+      <td class="a8">9</td>
+      <td class="a9" rowspan="2">+</td>
+    </tr>
+    <tr>
+      <td class="a10">4</td>
+      <td class="a11">5</td>
+      <td class="a12">6</td>
+    </tr>
+    <tr>
+      <td class="a13">1</td>
+      <td class="a14">2</td>
+      <td class="a15">3</td>
+      <td class="a16" rowspan="2">=</td>
+    </tr>
+    <tr>
+      <td class="a17" colspan="2">&ensp;0</td>
+      <td class="a18">.</td>
+    </tr>
+  </table>
+  <div class="a19"></div>
+  <script>
+    const text = document.getElementById('text')
+    const btns = document.querySelectorAll('td:not(#text)')
+
+    for (const btn of btns) {
+      btn.addEventListener('click', () => {
+        const btnText = btn.innerText
+        const operators = ['+', '-', '*', '/']
+        const lastText = text.innerText[text.innerText.length - 1]
+
+        if (btnText === '=') {
+          if (!operators.includes(lastText)) {
+            text.innerText = eval(text.innerText)
+          }
+        }
+        else if (btnText === 'C') {
+          text.innerText = '0'
+        }
+        else if (text.innerText === '0' && !isNaN(parseInt(btnText))) {
+          text.innerText = btnText
+        }
+        else if (operators.includes(lastText)) {
+          if (!operators.includes(btnText)) {
+            text.innerText += btnText
+          }
+        }
+        else if (btnText === '.') {
+          let canAddDot = true
+          for (let i = text.innerText.length - 1; i >= 0; i--) {
+            if (operators.includes(text.innerText[i])) break
+            if (text.innerText[i] === '.') {
+              canAddDot = false
+              break
+            }
+          }
+          if (canAddDot) text.innerText += '.'
+        }
+        else {
+          text.innerText += btnText
+        }
+      })
+    }
+
+    document.addEventListener('keydown', event => {
+      const btnText = event.key
+      const operators = ['+', '-', '*', '/']
+      const lastText = text.innerText[text.innerText.length - 1]
+      if (btnText === '=' || btnText === 'Enter') {
+        if (!operators.includes(lastText)) {
+          text.innerText = eval(text.innerText)
+        }
+      }
+      else if (btnText === 'c') {
+        text.innerText = '0'
+      }
+      else if (text.innerText === '0' && !isNaN(parseInt(btnText))) {
+        text.innerText = btnText
+      }
+      else if (operators.includes(lastText)) {
+        if (!operators.includes(btnText) && !isNaN(parseInt(btnText))) {
+          text.innerText += btnText
+        }
+      }
+      else if (!isNaN(parseInt(btnText)) || operators.includes(btnText)) {
+        text.innerText += btnText
+      }
+      else if (btnText === '.') {
+        let canAddDot = true
+        for (let i = text.innerText.length - 1; i >= 0; i--) {
+          if (operators.includes(text.innerText[i])) break
+          if (text.innerText[i] === '.') {
+            canAddDot = false
+            break
+          }
+        }
+        if (canAddDot) text.innerText += '.'
+      }
+    })
+  </script>
+</body>
+
+</html>
